@@ -3,6 +3,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
@@ -45,7 +47,7 @@ public class ActivityOpenai extends AppCompatActivity {
 
     private class OpenAIRequestTask extends AsyncTask<String, Void, String> {
         @Override
-        protected String doInBackground(String... params) {
+        protected String doInBackground(@NonNull String... params) {
             String userPrompt = params[0];
             String response = null;
 
