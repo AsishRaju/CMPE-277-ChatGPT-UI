@@ -19,11 +19,23 @@ import okhttp3.MediaType;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import android.widget.Toast;
+import java.util.Date;
 
 public class ActivityOpenai extends AppCompatActivity {
     private EditText userPromptEditText;
     private TextView responseTextView;
     private Button sendButton;
+
+    private Button saveButton;
+
+    private DBHandler dbHandler;
+
+    private String userPrompt;
+
+    private String ans;
+
+    private Integer seq=0;
 
     private static final String API_KEY = "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";
 
@@ -36,11 +48,26 @@ public class ActivityOpenai extends AppCompatActivity {
         responseTextView = findViewById(R.id.responseTextView);
         sendButton = findViewById(R.id.sendButton);
 
+        saveButton = findViewById(R.id.saveButton);
+
+        dbHandler = new DBHandler(ActivityOpenai.this);
+
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String userPrompt = userPromptEditText.getText().toString();
+                userPrompt = userPromptEditText.getText().toString();
+                seq=seq+1;
                 new OpenAIRequestTask().execute(userPrompt);
+            }
+        });
+
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String timestamp = new java.text.SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new java.util.Date());
+                dbHandler.addNewPrompt(seq, timestamp, userPrompt);
+                dbHandler.addNewResponse(seq, timestamp, ans);
+                Toast.makeText(ActivityOpenai.this, "SAVED TO DB", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -59,7 +86,7 @@ public class ActivityOpenai extends AppCompatActivity {
 
                 Request request = new Request.Builder()
                         .url("https://api.openai.com/v1/chat/completions")
-                        .addHeader("Authorization", "Bearer " + "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")
+                        .addHeader("Authorization", "Bearer " + "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")
                         .post(requestBody)
                         .build();
 
@@ -85,7 +112,7 @@ public class ActivityOpenai extends AppCompatActivity {
                     JSONObject choice = choices.getJSONObject(0);
                     System.out.println(choice);
                     JSONObject generatedText = choice.getJSONObject("message");
-                    String ans = generatedText.getString("content");
+                    ans = generatedText.getString("content");
                     responseTextView.setText(ans);
                 }
             } catch (JSONException e) {

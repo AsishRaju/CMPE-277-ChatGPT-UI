@@ -58,6 +58,14 @@
         android:layout_gravity="end"
         android:text="Cancel" />
 
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:layout_gravity="end"
+        android:backgroundTint="@color/teal_700"
+        android:text="SAVE/AUDIT" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="195dp"
