@@ -37,7 +37,7 @@ public class ActivityOpenai extends AppCompatActivity {
 
     private Integer seq=0;
 
-    private static final String API_KEY = "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";
+    private static final String API_KEY = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +86,7 @@ public class ActivityOpenai extends AppCompatActivity {
 
                 Request request = new Request.Builder()
                         .url("https://api.openai.com/v1/chat/completions")
-                        .addHeader("Authorization", "Bearer " + "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")
+                        .addHeader("Authorization", "Bearer " + "")
                         .post(requestBody)
                         .build();
 
